@@ -1,37 +1,21 @@
-import { FC } from "react";
+import { FC, useContext, useState } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { BsBell } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 import { HiChevronDown } from "react-icons/hi";
+import MainLayout from "../layouts/main-layout";
+import Modal from "../components/modal";
+import { GlobalContext } from "../contexts/global-context-provider";
 
 interface Props {}
 
 const HomePage: FC<Props> = (props): JSX.Element => {
+
+  const {isWriteModalOpen, setIsWriteModalOpen} = useContext(GlobalContext);
+
   return (
-    <div className="flex h-screen w-full flex-col">
-      <header className="flex h-20 w-full flex-row items-center justify-around border-b-[1px] border-gray-300 bg-white">
-        <div>
-          <IoReorderThreeOutline className="text-2xl text-gray-600" />
-        </div>
-        <div className="text-xl font-thin">Ultimate Blog App</div>
-        <div className="flex items-center space-x-2">
-          <div>
-            <BsBell className="text-2xl text-gray-600" />
-          </div>
-          <div>
-            <div className="h-5 w-5 rounded-full bg-gray-600"></div>
-          </div>
-          <div>
-            <button className="flex items-center space-x-2 rounded border border-gray-200 px-4 py-2.5 transition hover:border-gray-900 hover:text-gray-900">
-              <div>Write</div>
-              <div>
-                <FiEdit />
-              </div>
-            </button>
-          </div>
-        </div>
-      </header>
+    <MainLayout>
       <section className="grid h-full w-full grid-cols-12 place-items-center">
         <main className="col-span-8 h-full w-full border-r border-gray-300">
           <div className="flex w-full flex-col space-y-4 py-10 px-24">
@@ -179,16 +163,18 @@ const HomePage: FC<Props> = (props): JSX.Element => {
             <div className="flex flex-col space-y-8">
               {Array.from({ length: 4 }).map((_, i) => {
                 return (
-                  <div key={i} className="flex items-center space-x-6 group">
-                    <div className="h-full w-2/5 rounded-xl bg-gray-300 aspect-square"></div>
+                  <div key={i} className="group flex items-center space-x-6">
+                    <div className="aspect-square h-full w-2/5 rounded-xl bg-gray-300"></div>
                     <div className="flex w-3/5 flex-col space-y-2">
-                      <div className="text-lg font-semibold group-hover:underline decoration-indigo-600">Lorem ipsum dolor sit amet.</div>
+                      <div className="text-lg font-semibold decoration-indigo-600 group-hover:underline">
+                        Lorem ipsum dolor sit amet.
+                      </div>
                       <div>
                         Lorem ipsum dolor sit, amet consectetur adipisicing
                         elit. Recusandae, dolor!
                       </div>
-                      <div className="flex space-x-1 items-center w-full">
-                        <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
+                      <div className="flex w-full items-center space-x-1">
+                        <div className="h-5 w-5 rounded-full bg-gray-300"></div>
                         <div>Kevin Cho &#x2022;</div>
                         <div>22 Dec. 2022</div>
                       </div>
@@ -200,7 +186,12 @@ const HomePage: FC<Props> = (props): JSX.Element => {
           </div>
         </aside>
       </section>
-    </div>
+      <Modal isOpen={isWriteModalOpen} onClose={() => setIsWriteModalOpen(false)}>
+              <form onSubmit={(e) => e.preventDefault()}>
+                here is our form!!
+              </form>
+      </Modal>
+    </MainLayout>
   );
 };
 
